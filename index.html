@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Note App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            light: {
+              100: '#F7FFF6',
+              200: '#F4F4F6',
+              300: '#ECEAEA',
+              400: '#C2C2C2',
+              500: '#D6D6D6'
+            },
+            dark: {
+              100: '#1F1F1F',
+              200: '#141414',
+              300: '#0A0A0A',
+              400: '#292929',
+              500: '#111111'
+            }
+          },
+        },
+        fontFamily: {
+          'oswald': ['Oswald', 'sans-serif'],
+          'openSans': ['Open Sans', 'sans-serif'],
+          'roboto': ['Roboto Condensed', 'sans-serif']
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .default-text {
+        @apply font-openSans text-light-300 font-semibold
+      }
+      .default-text-dark {
+        @apply font-openSans text-dark-200 font-semibold
+      }
+    }
+  </style>
+  <script type="module" src="./index.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Oswald:wght@200;300;400;500;600;700&family=Roboto+Condensed:wght@300;400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="w-full min-h-screen flex justify-center bg-dark-400">
+    <main class="max-w-7xl w-full py-4 flex flex-col">
+      <section class="w-full flex flex-col gap-2">
+        <div class="flex flex-row font-oswald justify-between pl-12 rounded bg-light-300 py-2 pr-3">
+          <div class="w-40">
+            <p class="default-text-dark">Name</p>
+          </div>
+          <div class="w-40">
+            <p class="default-text-dark">Created</p>
+          </div>
+          <div class="w-40">
+            <p class="default-text-dark">Category</p>
+          </div>
+          <div class="w-96">
+            <p class="default-text-dark">Content</p>
+          </div>
+          <div class="w-40">
+            <p class="default-text-dark">Dates</p>
+          </div>
+          <div class="w-[110px] flex flex-row gap-4 justify-end">
+            <img class="w-6 h-6" src="./Assets/archive-black.svg" alt="archive" >
+            <img class="w-6 h-6" src="./Assets/trashcan-black.svg" alt="trashcan">
+          </div>
+        </div>
+        <div class="flex flex-col notes gap-2"></div>
+        <div class="note-creating flex items-center mt-2">
+          <button class="show-creating-form rounded-sm bg-light-300 p-2 mx-auto font-oswald font-normal text-xl text-dark-200">
+            Create Note
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
