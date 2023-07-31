@@ -1,4 +1,4 @@
-export const updateNotes = (id, notes, data) => {
+export const updateNote = (id, notes, data) => {
   const itemIndex = notes.findIndex(item => item.id === id)
   let editedNotes = notes
 

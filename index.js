@@ -1,12 +1,17 @@
-import { renderNotes, renderEditForm, renderCreatingForm, removeCreatingForm } from "./rendering.js"
-import { updateNotes } from "./processing.js";
+import { renderNotes, renderEditForm, renderCreatingForm, removeCreatingForm, renderStats } from "./rendering.js"
+import { updateNote } from "./processing.js";
 import { initialNotes } from "./data.js"
 
 const notesBlock = document.querySelector('.notes')
 const noteCreatingBlock = document.querySelector('.note-creating')
-let notes = initialNotes
+const showAllCheckBox = document.querySelector('.show-all')
+let notes = [...initialNotes]
+let showAll = false
 
-window.addEventListener("load", () => renderNotes(notes))
+window.addEventListener("load", () => {
+  renderNotes(notes)
+  renderStats(notes)
+})
 
 notesBlock.addEventListener('click', e => {
   const id = e.target.parentNode.parentNode.dataset.id || e.target.parentNode.parentNode.parentNode.dataset.id
@@ -15,14 +20,24 @@ notesBlock.addEventListener('click', e => {
     renderEditForm(id, notes)
     
   if(e.target.classList.contains("archive")) {
-    const editedNotes = updateNotes(id, notes, { archived: true })
+    const editedNotes = updateNote(id, notes, { archived: true })
     notes = editedNotes
-    renderNotes(notes)
+    renderNotes(notes, { all: showAll })
+    renderStats(notes)
+  }
+
+  if(e.target.classList.contains("unarchive")) {
+    console.log('f')
+    const editedNotes = updateNote(id, notes, { archived: false })
+    notes = editedNotes
+    renderNotes(notes, { all: showAll })
+    renderStats(notes)
   }
 
   if(e.target.classList.contains("delete")) {
     notes = notes.filter(item => item.id !== id)
-    renderNotes(notes)
+    renderNotes(notes, { all: showAll })
+    renderStats(notes)
   }
 })
 
@@ -31,13 +46,13 @@ notesBlock.addEventListener('submit', e => {
   const id = e.target.parentNode.dataset.id
   const data = new FormData(e.target)
 
-  const editedNotes = updateNotes(id, notes, { 
+  const editedNotes = updateNote(id, notes, { 
     name: data.get('name'),
     content: data.get('content'),
     category: data.get('category')
   })
   notes = editedNotes
-  renderNotes(notes)
+  renderNotes(notes, { all: showAll })
 })
 
 noteCreatingBlock.addEventListener('click', e => {
@@ -57,6 +72,15 @@ noteCreatingBlock.addEventListener('submit', e => {
     content: data.get('content'),
     archived: false
   })
-  renderNotes(notes)
+  renderNotes(notes, { all: showAll })
+  renderStats(notes)
   removeCreatingForm()
+})
+
+showAllCheckBox.addEventListener('change', (e) => {
+  if(e.target.checked)
+    showAll = true
+  else
+    showAll = false
+  renderNotes(notes, { all: showAll })
 })

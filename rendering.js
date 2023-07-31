@@ -48,9 +48,21 @@ export const generateNote = (note) => {
           <button type="button" class="edit rounded-full bg-opacity-0 bg-light-300 p-1 overflow-hidden hover:bg-opacity-30 transition-all duration-300">
             <img class="w-6 h-6 edit" src="./Assets/pencil.svg" alt="archive" >
           </button>
-          <button type="button" class="archive rounded-full bg-opacity-0 bg-light-300 p-1 overflow-hidden hover:bg-opacity-30 transition-all duration-300">
-            <img class="archive w-6 h-6" src="./Assets/archive.svg" alt="archive" >
-          </button>
+          ${
+            note.archived 
+              ? `
+                  <button type="button" class="unarchive rounded-full bg-opacity-0 bg-light-300 p-1 overflow-hidden hover:bg-opacity-30 transition-all duration-300">
+                    <img class="unarchive w-6 h-6" src="./Assets/unarchive.svg" alt="archive" >
+                  </button>
+                `
+              : `
+                  <button type="button" class="archive rounded-full bg-opacity-0 bg-light-300 p-1 overflow-hidden hover:bg-opacity-30 transition-all duration-300">
+                    <img class="archive w-6 h-6" src="./Assets/archive.svg" alt="archive" >
+                  </button>
+                `
+              
+
+          }
           <button type="button" class="delete rounded-full bg-opacity-0 bg-light-300 p-1 overflow-hidden hover:bg-opacity-30 transition-all duration-300">
             <img class="delete w-6 h-6" src="./Assets/trashcan.svg" alt="trashcan">
           </button>
@@ -143,4 +155,34 @@ export const removeCreatingForm = () => {
       Create Note
     </button>
   `
+}
+
+export const renderStats = (notes) => {
+  const statsBlock = document.querySelector('.stats')
+
+  let displayStats = ""
+
+  Object.keys(categoryIconsPathes).forEach(category => {
+    const archived = notes.filter(item => item.category === category && item.archived === true).length
+    const notArchived = notes.filter(item => item.category === category && item.archived === false).length
+
+    displayStats += `
+      <div class="flex flex-row font-oswald justify-between items-center rounded p-2 border-solid border-light-300 border-[1px]">
+        <div>
+          <img class="text-dark-200 w-6 h-6" src="${categoryIconsPathes[category].src}" alt="${categoryIconsPathes[category].alt}"/>
+        </div>
+        <div class="w-60">
+          <p class="default-text">${category}</p>
+        </div>
+        <div class="w-40">
+          <p class="default-text">${archived}</p>
+        </div>
+        <div class="w-40">
+          <p class="default-text">${notArchived}</p>
+        </div>
+      </div>
+    `
+  })
+
+  statsBlock.innerHTML = displayStats
 }
