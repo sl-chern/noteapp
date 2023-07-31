@@ -1,5 +1,5 @@
 import { renderNotes, renderEditForm, renderCreatingForm, removeCreatingForm } from "./rendering.js"
-import { archiveNote } from "./processing.js";
+import { updateNotes } from "./processing.js";
 import { initialNotes } from "./data.js"
 
 const notesBlock = document.querySelector('.notes')
@@ -12,10 +12,10 @@ notesBlock.addEventListener('click', e => {
   const id = e.target.parentNode.parentNode.dataset.id || e.target.parentNode.parentNode.parentNode.dataset.id
 
   if(e.target.classList.contains("edit"))
-    renderEditForm(id)
+    renderEditForm(id, notes)
     
   if(e.target.classList.contains("archive")) {
-    const editedNotes = archiveNote(id, notes)
+    const editedNotes = updateNotes(id, notes, { archived: true })
     notes = editedNotes
     renderNotes(notes)
   }
@@ -24,6 +24,20 @@ notesBlock.addEventListener('click', e => {
     notes = notes.filter(item => item.id !== id)
     renderNotes(notes)
   }
+})
+
+notesBlock.addEventListener('submit', e => {
+  e.preventDefault()
+  const id = e.target.parentNode.dataset.id
+  const data = new FormData(e.target)
+
+  const editedNotes = updateNotes(id, notes, { 
+    name: data.get('name'),
+    content: data.get('content'),
+    category: data.get('category')
+  })
+  notes = editedNotes
+  renderNotes(notes)
 })
 
 noteCreatingBlock.addEventListener('click', e => {
@@ -46,22 +60,3 @@ noteCreatingBlock.addEventListener('submit', e => {
   renderNotes(notes)
   removeCreatingForm()
 })
-
-// renderCreatingFormButton.addEventListener('click', () => {
-//   renderCreatingForm()
-//   const creatingForm = document.querySelector(".creating-note-form")
-//   creatingForm.addEventListener('submit', e => {
-//     e.preventDefault()
-//     const data = new FormData(creatingForm)
-//     notes.push({
-//       id: crypto.randomUUID(),
-//       created: new Date(),
-//       name: data.get('name'),
-//       category: data.get('category'),
-//       content: data.get('content'),
-//       archived: false
-//     })
-//     renderNotes(notes)
-//     removeCreatingForm()
-//   })
-// })

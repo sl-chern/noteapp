@@ -63,9 +63,42 @@ export const generateNote = (note) => {
   }
 }
 
-export const renderEditForm = (id) => {
-  const noteBlock = document.querySelector(`[data-id=${id}]`)
-  noteBlock.innerHTML = ``
+export const renderEditForm = (id, notes) => {
+  const noteBlock = document.querySelector(`[data-id="${id}"]`)
+  noteBlock.innerHTML = ''
+  const form = document.createElement('form')
+  form.setAttribute('class', 'creating-note-form flex flex-row gap-4 w-full')
+  form.innerHTML = `
+    <label class="flex flex-col text-light-300 font-roboto text-lg">
+      Name
+      <input name="name" type="text" required class="bg-transparent p-2 border-2 border-light-300 border-solid rounded outline-none text-light-300 font-roboto w-[200px]"/>
+    </label>
+    <label class="flex flex-col text-light-300 font-roboto text-lg">
+      Category
+      <select name="category" required class="w-[200px] h-12 bg-transparent p-2 border-2 border-light-300 border-solid rounded outline-none text-light-300 font-roboto">
+        <option value="" disabled selected>Select category</option>
+        ${
+          Object.keys(categoryIconsPathes)
+            .map(item =>
+              `<option value="${item}" class="text-dark-200 font-roboto p-2">${item}</option>`
+            )
+            .join("")
+        }
+      </select>
+    </label>
+    <label class="flex flex-col text-light-300 font-roboto text-lg grow">
+      Content
+      <textarea name="content" type="text" required class="bg-transparent p-2 border-2 border-light-300 border-solid rounded outline-none text-light-300 font-roboto resize-none h-24"></textarea>
+    </label>
+    <button type="submit" class="rounded-sm bg-light-300 py-2 px-8 mx-auto h-12 mt-7 font-oswald font-normal text-xl text-dark-200">
+      Update
+    </button>
+  `
+  const note = notes.find(item => item.id === id)
+  form.elements["name"].value = note.name
+  form.elements["category"].value = note.category
+  form.elements["content"].value = note.content
+  noteBlock.appendChild(form)
 }
 
 export const renderCreatingForm = () => {

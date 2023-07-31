@@ -1,6 +1,10 @@
-export const archiveNote = (id, notes) => {
+export const updateNotes = (id, notes, data) => {
   const itemIndex = notes.findIndex(item => item.id === id)
   let editedNotes = notes
-  editedNotes[itemIndex].archived = !editedNotes[itemIndex].archived
+
+  for(const key in data) {
+    editedNotes[itemIndex][key] = data[key]
+  }
+
   return editedNotes
 }
