@@ -16,8 +16,10 @@ window.addEventListener("load", () => {
 notesBlock.addEventListener('click', e => {
   const id = e.target.parentNode.parentNode.dataset.id || e.target.parentNode.parentNode.parentNode.dataset.id
 
-  if(e.target.classList.contains("edit"))
+  if(e.target.classList.contains("edit")) {
     renderEditForm(id, notes)
+    renderStats(notes)
+  }
     
   if(e.target.classList.contains("archive")) {
     const editedNotes = updateNote(id, notes, { archived: true })
