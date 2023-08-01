@@ -18,7 +18,6 @@ notesBlock.addEventListener('click', e => {
 
   if(e.target.classList.contains("edit")) {
     renderEditForm(id, notes)
-    renderStats(notes)
   }
     
   if(e.target.classList.contains("archive")) {
@@ -55,6 +54,7 @@ notesBlock.addEventListener('submit', e => {
   })
   notes = editedNotes
   renderNotes(notes, { all: showAll })
+  renderStats(notes)
 })
 
 noteCreatingBlock.addEventListener('click', e => {
