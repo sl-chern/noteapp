@@ -115,10 +115,11 @@ export const renderEditForm = (id, notes) => {
 
 export const renderCreatingForm = () => {
   const creatingBlock = document.querySelector(`.note-creating`)
-  creatingBlock.innerHTML = ``
 
   const form = document.createElement('form')
   form.setAttribute('class', 'creating-note-form flex flex-row gap-4 w-full')
+  form.setAttribute('id', 'creating-note-form')
+
   form.innerHTML = `
     <label class="flex flex-col text-light-300 font-roboto text-lg">
       Name
@@ -139,13 +140,14 @@ export const renderCreatingForm = () => {
     </label>
     <label class="flex flex-col text-light-300 font-roboto text-lg grow">
       Content
-      <textarea name="content" type="text" required class="bg-transparent p-2 border-2 border-light-300 border-solid rounded outline-none text-light-300 font-roboto resize-none h-24"></textarea>
+      <textarea name="content" required class="bg-transparent p-2 border-2 border-light-300 border-solid rounded outline-none text-light-300 font-roboto resize-none h-24"></textarea>
     </label>
-    <button type="submit" class="show-creating-form rounded-sm bg-light-300 py-2 px-8 mx-auto h-12 mt-7">
+    <button form="creating-note-form" type="submit" class="rounded-sm bg-light-300 py-2 px-8 mx-auto h-12 mt-7">
       <p class="font-oswald font-normal text-xl text-dark-200">Create</p>
     </button>
   `
-  creatingBlock.appendChild(form)
+
+  creatingBlock.replaceChildren(form)
 }
 
 export const removeCreatingForm = () => {
